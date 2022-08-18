@@ -6,7 +6,7 @@ from .tokenizer_exceptions import TOKENIZER_EXCEPTIONS
 from .punctuation import TOKENIZER_SUFFIXES
 from .syntax_iterators import SYNTAX_ITERATORS
 from ...language import Language, BaseDefaults
-from ...pipeline import Lemmatizer
+from .lemmatizer import PersianLemmatizer
 
 
 class PersianDefaults(BaseDefaults):
@@ -42,7 +42,7 @@ def make_lemmatizer(
     overwrite: bool,
     scorer: Optional[Callable],
 ):
-    return Lemmatizer(
+    return PersianLemmatizer(
         nlp.vocab, model, name, mode=mode, overwrite=overwrite, scorer=scorer
     )
 

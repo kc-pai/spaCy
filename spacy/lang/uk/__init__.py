@@ -6,8 +6,6 @@ from .tokenizer_exceptions import TOKENIZER_EXCEPTIONS
 from .stop_words import STOP_WORDS
 from .lex_attrs import LEX_ATTRS
 from .lemmatizer import UkrainianLemmatizer
-from ..punctuation import COMBINING_DIACRITICS_TOKENIZER_INFIXES
-from ..punctuation import COMBINING_DIACRITICS_TOKENIZER_SUFFIXES
 from ...language import Language, BaseDefaults
 
 
@@ -15,8 +13,6 @@ class UkrainianDefaults(BaseDefaults):
     tokenizer_exceptions = TOKENIZER_EXCEPTIONS
     lex_attr_getters = LEX_ATTRS
     stop_words = STOP_WORDS
-    suffixes = COMBINING_DIACRITICS_TOKENIZER_SUFFIXES
-    infixes = COMBINING_DIACRITICS_TOKENIZER_INFIXES
 
 
 class Ukrainian(Language):

@@ -159,8 +159,10 @@ class EntityRuler(Pipe):
         self._require_patterns()
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="\\[W036")
-            matches = list(self.matcher(doc)) + list(self.phrase_matcher(doc))
-
+            matches = cast(
+                List[Tuple[int, int, int]],
+                list(self.matcher(doc)) + list(self.phrase_matcher(doc)),
+            )
         final_matches = set(
             [(m_id, start, end) for m_id, start, end in matches if start != end]
         )
@@ -180,7 +182,10 @@ class EntityRuler(Pipe):
             if start not in seen_tokens and end - 1 not in seen_tokens:
                 if match_id in self._ent_ids:
                     label, ent_id = self._ent_ids[match_id]
-                    span = Span(doc, start, end, label=label, span_id=ent_id)
+                    span = Span(doc, start, end, label=label)
+                    if ent_id:
+                        for token in span:
+                            token.ent_id_ = ent_id
                 else:
                     span = Span(doc, start, end, label=match_id)
                 new_entities.append(span)
@@ -354,9 +359,7 @@ class EntityRuler(Pipe):
             (label, eid) for (label, eid) in self._ent_ids.values() if eid == ent_id
         ]
         if not label_id_pairs:
-            raise ValueError(
-                Errors.E1024.format(attr_type="ID", label=ent_id, component=self.name)
-            )
+            raise ValueError(Errors.E1024.format(ent_id=ent_id))
         created_labels = [
             self._create_label(label, eid) for (label, eid) in label_id_pairs
         ]

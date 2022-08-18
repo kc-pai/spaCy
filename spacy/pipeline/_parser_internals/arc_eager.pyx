@@ -10,7 +10,6 @@ from ...strings cimport hash_string
 from ...structs cimport TokenC
 from ...tokens.doc cimport Doc, set_children_from_heads
 from ...tokens.token cimport MISSING_DEP
-from ...training import split_bilu_label
 from ...training.example cimport Example
 from .stateclass cimport StateClass
 from ._state cimport StateC, ArcC
@@ -688,7 +687,7 @@ cdef class ArcEager(TransitionSystem):
             return self.c[name_or_id]
         name = name_or_id
         if '-' in name:
-            move_str, label_str = split_bilu_label(name)
+            move_str, label_str = name.split('-', 1)
             label = self.strings[label_str]
         else:
             move_str = name
